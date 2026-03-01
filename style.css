@@ -1,0 +1,605 @@
+/* ==================== CSS Variables (Light & Dark) ==================== */
+:root {
+    /* Light theme (default) */
+    --bg-color: #f4f6f9;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --border-color: #dddddd;
+    --income-color: #28a745;
+    --expense-color: #dc3545;
+    --balance-color: #17a2b8;
+    --button-bg: #28a745;
+    --button-hover: #218838;
+    --export-bg: #007bff;
+    --export-hover: #0056b3;
+    --voice-bg: #6c757d;
+    --voice-hover: #5a6268;
+    --insight-bg: rgba(255, 193, 7, 0.1);
+    --insight-border: #ffc107;
+    /* Bill reminders */
+    --bill-bg: #fff3cd;
+    --bill-border: #ffc107;
+    --bill-text: #856404;
+    --bill-amount: #dc3545;
+    --bill-due-soon: #dc3545;
+    /* Budget edit buttons */
+    --edit-budget-bg: #007bff;
+    --edit-budget-hover: #0056b3;
+    --save-budget-bg: #28a745;
+    --cancel-budget-bg: #dc3545;
+}
+
+/* Dark theme overrides */
+body.dark-mode {
+    --bg-color: #1e1e1e;
+    --card-bg: #2d2d2d;
+    --text-color: #e0e0e0;
+    --border-color: #444444;
+    --income-color: #4caf50;
+    --expense-color: #f44336;
+    --balance-color: #00bcd4;
+    --button-bg: #4caf50;
+    --button-hover: #45a049;
+    --export-bg: #2196f3;
+    --export-hover: #1976d2;
+    --voice-bg: #5a6268;
+    --voice-hover: #4e555b;
+    --insight-bg: rgba(255, 255, 255, 0.1);
+    --insight-border: #ffc107;
+    /* Bill reminders - dark mode adjusted */
+    --bill-bg: #3a3a3a;
+    --bill-border: #ffc107;
+    --bill-text: #ffd966;
+    --bill-amount: #ff8a80;
+    --bill-due-soon: #ff8a80;
+    /* Budget edit buttons dark */
+    --edit-budget-bg: #2196f3;
+    --edit-budget-hover: #1976d2;
+    --save-budget-bg: #4caf50;
+    --cancel-budget-bg: #f44336;
+}
+
+/* ==================== Global Styles ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    padding: 20px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+/* ==================== Dark Mode Toggle Button ==================== */
+.theme-toggle {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: 0.3s;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.theme-toggle:hover {
+    opacity: 0.8;
+}
+
+/* ==================== Form Card ==================== */
+.form-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-card h2 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+#transaction-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+#transaction-form input,
+#transaction-form select,
+#transaction-form button,
+#transaction-form label {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+#transaction-form input {
+    flex: 2 1 200px;
+}
+
+#transaction-form select {
+    flex: 1 1 120px;
+}
+
+#transaction-form label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+#transaction-form button[type="submit"] {
+    flex: 1 1 150px;
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#transaction-form button[type="submit"]:hover {
+    background: var(--button-hover);
+}
+
+/* Voice button */
+.voice-btn {
+    background: var(--voice-bg);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.voice-btn:hover {
+    background: var(--voice-hover);
+}
+.voice-btn.listening {
+    background: var(--expense-color);
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* ==================== Summary Cards ==================== */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card h3 {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.income p { color: var(--income-color); }
+.expense p { color: var(--expense-color); }
+.balance p { color: var(--balance-color); }
+
+/* ==================== Insights Section ==================== */
+.insights {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.insight-item {
+    padding: 10px;
+    border-left: 4px solid var(--insight-border);
+    background: var(--insight-bg);
+    margin-bottom: 8px;
+    border-radius: 4px;
+    color: var(--text-color);
+}
+
+.insight-item.warning {
+    border-left-color: var(--expense-color);
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.insight-item.success {
+    border-left-color: var(--income-color);
+    background: rgba(40, 167, 69, 0.1);
+}
+
+/* ==================== Bill Reminders Widget ==================== */
+.bill-reminders {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.bill-reminders h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.bill-list {
+    list-style: none;
+}
+
+.bill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bill-bg);
+    border-left: 4px solid var(--bill-border);
+    margin-bottom: 8px;
+    border-radius: 4px;
+    color: var(--bill-text);
+}
+
+.bill-item:last-child {
+    margin-bottom: 0;
+}
+
+.bill-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.bill-name {
+    font-weight: 600;
+}
+
+.bill-date {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.bill-amount {
+    font-weight: bold;
+    color: var(--bill-amount);
+}
+
+.bill-due-soon {
+    color: var(--bill-due-soon);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.bill-item.due-soon {
+    border-left-color: var(--bill-due-soon);
+    background: rgba(220, 53, 69, 0.1);
+}
+
+/* ==================== Row (Chart & Budgets) ==================== */
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.chart-container, .budget-container {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.chart-container h2, .budget-container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+canvas {
+    max-height: 250px;
+    max-width: 100%;
+}
+
+/* Budget header with edit button */
+.budget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.btn-edit-budgets {
+    background: var(--edit-budget-bg);
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+.btn-edit-budgets:hover {
+    background: var(--edit-budget-hover);
+}
+
+/* Budget progress bars */
+.budget-item {
+    margin-bottom: 15px;
+}
+
+.budget-category {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.progress-bar {
+    background: var(--border-color);
+    border-radius: 10px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--income-color);
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.progress-fill.exceeded {
+    background: var(--expense-color);
+}
+
+/* Budget edit form */
+#budget-edit-form {
+    border-top: 1px solid var(--border-color);
+    margin-top: 15px;
+    padding: 15px;
+}
+
+#budget-edit-form h3 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+#budget-inputs div {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#budget-inputs label {
+    width: 120px;
+    font-weight: 500;
+}
+
+#budget-inputs input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.btn-save {
+    background: var(--save-budget-bg);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-save:hover {
+    opacity: 0.8;
+}
+
+.btn-cancel {
+    background: var(--cancel-budget-bg);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-cancel:hover {
+    opacity: 0.8;
+}
+
+/* ==================== Transaction List ==================== */
+.transactions {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.transactions h2 {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-right: 20px;
+}
+
+.btn-export, .btn-import {
+    background: var(--export-bg);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    float: right;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+    margin-left: 10px;
+}
+
+.btn-export:hover, .btn-import:hover {
+    background: var(--export-hover);
+}
+
+#transaction-list {
+    list-style: none;
+    margin-top: 20px;
+    clear: both;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.transaction-category {
+    background: var(--border-color);
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--text-color);
+}
+
+.recurring-badge {
+    font-size: 1rem;
+    cursor: help;
+}
+
+.transaction-amount {
+    font-weight: bold;
+}
+
+.transaction-amount.income {
+    color: var(--income-color);
+}
+
+.transaction-amount.expense {
+    color: var(--expense-color);
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--expense-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.delete-btn:hover {
+    color: #bd2130; /* keep slightly darker even in dark mode */
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+    .row {
+        grid-template-columns: 1fr;
+    }
+    
+    .summary {
+        grid-template-columns: 1fr;
+    }
+    
+    #transaction-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #transaction-form input,
+    #transaction-form select,
+    #transaction-form button,
+    #transaction-form label {
+        width: 100%;
+    }
+    
+    .btn-export, .btn-import {
+        float: none;
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .transactions h2 {
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    .budget-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
